@@ -1,0 +1,30 @@
+# GoReleaser output
+dist/
+
+# Compiled binaries
+/sync-named-workflow-template
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries and coverage
+*.test
+*.out
+coverage.txt
+
+# Go build/workspace files
+*.work
+*.work.sum
+
+# Dependency vendoring (uncommon with go modules, but ignore if present)
+vendor/
+
+# Environment files
+.env
+
+# IDE/editor
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "minimumReleaseAge": "7 days",
+  "mise": {
+    "enabled": true
+  },
+  "pre-commit": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "matchDepNames": ["siderolabs/conform"],
+      "groupName": "conform",
+      "description": "Keep the conform version used by mise and the pre-commit hook in lockstep."
+    }
+  ]
+}
