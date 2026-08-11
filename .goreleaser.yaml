@@ -33,6 +33,22 @@ archives:
 checksum:
   name_template: "checksums.txt"
 
+sboms:
+  - id: archive-sboms
+    artifacts: archive
+
+signs:
+  - id: checksum-signature
+    cmd: cosign
+    signature: "${artifact}.bundle"
+    args:
+      - sign-blob
+      - "--bundle=${signature}"
+      - "${artifact}"
+      - "--yes"
+    artifacts: checksum
+    output: true
+
 changelog:
   sort: asc
   filters:
