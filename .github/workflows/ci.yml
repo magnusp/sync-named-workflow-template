@@ -17,6 +17,12 @@ jobs:
         with:
           go-version: "stable"
 
+      - name: Install mise (for golangci-lint and govulncheck)
+        uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
+        with:
+          install: true
+          cache: true
+
       - name: Build
         run: go build ./...
 
@@ -25,3 +31,9 @@ jobs:
 
       - name: Vet
         run: go vet ./...
+
+      - name: Lint
+        run: golangci-lint run ./...
+
+      - name: Vulnerability scan
+        run: govulncheck ./...
