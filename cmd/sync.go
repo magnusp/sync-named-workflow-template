@@ -67,14 +67,14 @@ func runSync(cmd *cobra.Command, args []string) error {
 		}
 
 		if !plan.Drifted() {
-			fmt.Fprintf(out, "%s/%s: up to date\n", repo.Owner, repo.Name)
+			_, _ = fmt.Fprintf(out, "%s/%s: up to date\n", repo.Owner, repo.Name)
 			continue
 		}
 
-		fmt.Fprintf(out, "%s/%s: drift detected\n", repo.Owner, repo.Name)
+		_, _ = fmt.Fprintf(out, "%s/%s: drift detected\n", repo.Owner, repo.Name)
 		for _, f := range plan.Files {
 			if f.Changed {
-				fmt.Fprintf(out, "  changed: %s\n", f.TargetPath)
+				_, _ = fmt.Fprintf(out, "  changed: %s\n", f.TargetPath)
 			}
 		}
 
@@ -88,7 +88,7 @@ func runSync(cmd *cobra.Command, args []string) error {
 				msg += fmt.Sprintf(" with an open PR (%s)", state.OpenPR.HTMLURL)
 			}
 			if !confirm(out, in, msg+". Overwrite it and continue?") {
-				fmt.Fprintf(out, "%s: skipped\n", fullName(repo))
+				_, _ = fmt.Fprintf(out, "%s: skipped\n", fullName(repo))
 				continue
 			}
 		}
@@ -97,7 +97,7 @@ func runSync(cmd *cobra.Command, args []string) error {
 		if err != nil {
 			return err
 		}
-		fmt.Fprintf(out, "%s: %s\n", fullName(repo), pr.HTMLURL)
+		_, _ = fmt.Fprintf(out, "%s: %s\n", fullName(repo), pr.HTMLURL)
 	}
 
 	return nil
@@ -108,7 +108,7 @@ func fullName(repo templatesync.Repo) string {
 }
 
 func confirm(out io.Writer, in *bufio.Reader, prompt string) bool {
-	fmt.Fprintf(out, "%s [y/N] ", prompt)
+	_, _ = fmt.Fprintf(out, "%s [y/N] ", prompt)
 	line, _ := in.ReadString('\n')
 	answer := strings.ToLower(strings.TrimSpace(line))
 	return answer == "y" || answer == "yes"

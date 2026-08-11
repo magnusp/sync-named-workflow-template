@@ -23,7 +23,7 @@ func TestGetContent(t *testing.T) {
 		if got, want := r.URL.Path, "/repos/acme/widgets/contents/foo.yml"; got != want {
 			t.Errorf("path = %q, want %q", got, want)
 		}
-		json.NewEncoder(w).Encode(ContentFile{
+		_ = json.NewEncoder(w).Encode(ContentFile{
 			SHA:     "abc123",
 			Content: base64.StdEncoding.EncodeToString([]byte("hello")),
 			Path:    "foo.yml",
@@ -62,7 +62,7 @@ func TestRefSHA(t *testing.T) {
 		if got, want := r.URL.Path, "/repos/acme/widgets/git/ref/heads/main"; got != want {
 			t.Errorf("path = %q, want %q", got, want)
 		}
-		json.NewEncoder(w).Encode(map[string]any{
+		_ = json.NewEncoder(w).Encode(map[string]any{
 			"object": map[string]string{"sha": "deadbeef"},
 		})
 	})
@@ -82,7 +82,7 @@ func TestCreateRef(t *testing.T) {
 		if r.Method != http.MethodPost {
 			t.Errorf("method = %s, want POST", r.Method)
 		}
-		json.NewDecoder(r.Body).Decode(&gotBody)
+		_ = json.NewDecoder(r.Body).Decode(&gotBody)
 		w.WriteHeader(http.StatusCreated)
 	})
 
@@ -115,7 +115,7 @@ func TestPutContent(t *testing.T) {
 		if r.Method != http.MethodPut {
 			t.Errorf("method = %s, want PUT", r.Method)
 		}
-		json.NewDecoder(r.Body).Decode(&gotBody)
+		_ = json.NewDecoder(r.Body).Decode(&gotBody)
 	})
 
 	err := c.PutContent("acme", "widgets", PutContentInput{
@@ -142,7 +142,7 @@ func TestFindOpenPR(t *testing.T) {
 		if got, want := r.URL.Query().Get("head"), "acme:sync/x"; got != want {
 			t.Errorf("head query = %q, want %q", got, want)
 		}
-		json.NewEncoder(w).Encode([]PullRequest{{Number: 7, HTMLURL: "https://example.com/pr/7", State: "open"}})
+		_ = json.NewEncoder(w).Encode([]PullRequest{{Number: 7, HTMLURL: "https://example.com/pr/7", State: "open"}})
 	})
 
 	pr, err := c.FindOpenPR("acme", "widgets", "sync/x")
@@ -156,7 +156,7 @@ func TestFindOpenPR(t *testing.T) {
 
 func TestFindOpenPRNone(t *testing.T) {
 	c := testClient(t, func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode([]PullRequest{})
+		_ = json.NewEncoder(w).Encode([]PullRequest{})
 	})
 
 	pr, err := c.FindOpenPR("acme", "widgets", "sync/x")
@@ -173,7 +173,7 @@ func TestCreatePR(t *testing.T) {
 		if r.Method != http.MethodPost {
 			t.Errorf("method = %s, want POST", r.Method)
 		}
-		json.NewEncoder(w).Encode(PullRequest{Number: 9, HTMLURL: "https://example.com/pr/9"})
+		_ = json.NewEncoder(w).Encode(PullRequest{Number: 9, HTMLURL: "https://example.com/pr/9"})
 	})
 
 	pr, err := c.CreatePR("acme", "widgets", "sync/x", "main", "title", "body")

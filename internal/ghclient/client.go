@@ -60,7 +60,7 @@ func (c *Client) do(method, path string, body any, out any) (*http.Response, err
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode == http.StatusNotFound {
 		return resp, ErrNotFound

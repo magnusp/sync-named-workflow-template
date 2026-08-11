@@ -80,7 +80,7 @@ func LoadTemplateFiles(dir string) ([]TemplateFile, error) {
 // matching the "sha" field GitHub's contents API returns.
 func gitBlobSHA(content []byte) string {
 	h := sha1.New()
-	fmt.Fprintf(h, "blob %d\x00", len(content))
+	_, _ = fmt.Fprintf(h, "blob %d\x00", len(content))
 	h.Write(content)
 	return fmt.Sprintf("%x", h.Sum(nil))
 }

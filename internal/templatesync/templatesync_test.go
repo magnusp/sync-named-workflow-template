@@ -12,7 +12,7 @@ import (
 
 func blobSHA(content []byte) string {
 	h := sha1.New()
-	fmt.Fprintf(h, "blob %d\x00", len(content))
+	_, _ = fmt.Fprintf(h, "blob %d\x00", len(content))
 	h.Write(content)
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
